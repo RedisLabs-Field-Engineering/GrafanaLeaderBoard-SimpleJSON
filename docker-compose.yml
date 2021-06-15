@@ -14,10 +14,13 @@ services:
       - "3000:3000"
     environment:
         - GF_INSTALL_PLUGINS=redis-datasource,grafana-simple-json-datasource
+    depends_on:
+      - leaderboard
   leaderboard:
     image: "maguec/grafanaleaderboard:latest"
+    environment:
+        - REDIS_SERVER=redis
     depends_on:
       - redis
-      - grafana
     ports:
       - "5000:5000"
