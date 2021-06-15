@@ -33,6 +33,12 @@ if environ.get('REDIS_SCANPREFIX') is not None:
 else:
    redis_scanprefix = "*"
 
+if environ.get('REDIS_TOPK') is not None:
+   redis_topk = environ.get('REDIS_TOPK')
+else:
+   redis_topk = 10
+
+
 
 
 client = redis.Redis(
@@ -69,7 +75,7 @@ def query():
       { "type": "table",
       "columns": [ { "text": "Value", "type": "string" }, { "text": "Score", "type": "string" } ],
       "rows": [] } ]
-   x = client.zrevrange(k, 0, 10, withscores=True)
+   x = client.zrevrange(k, 0, redis_topk, withscores=True)
    for j in x:
       table_def[0]["rows"].append([j[0].decode('utf-8'), j[1]])
    return json.dumps(table_def)
