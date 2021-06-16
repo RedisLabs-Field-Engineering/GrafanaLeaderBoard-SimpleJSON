@@ -28,6 +28,11 @@ if environ.get('REDIS_LEADERBOARDS') is not None:
 else:
    redis_leaderboards = []
 
+if environ.get('REDIS_LEADERBOARD_SET') is not None:
+   redis_leaderboard_set = environ.get('REDIS_LEADERBOARD_SET')
+else:
+   redis_leaderboard_set = ""
+
 if environ.get('REDIS_SCANPREFIX') is not None:
    redis_scanprefix = environ.get('REDIS_SCANPREFIX')
 else:
@@ -56,7 +61,12 @@ def ping():
 
 @app.route('/search', methods = ['POST'])
 def search():
-   if len(redis_leaderboards) > 0:
+   if redis_leaderboard_set != "":
+      b = []
+      for x in client.smembers(redis_leaderboard_set):
+         b.append(x.decode("UTF-8"))
+      return json.dumps(b)
+   elif len(redis_leaderboards) > 0:
       return json.dumps(redis_leaderboards)
    else:
       l = []

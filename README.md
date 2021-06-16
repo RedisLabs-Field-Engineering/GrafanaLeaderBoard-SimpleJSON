@@ -46,7 +46,8 @@ Be sure to set the Table in the top right and bottom left
 | REDIS_PORT | Redis Instance port|6379|
 | REDIS_PASSWORD | Redis Instance password|""|
 |REDIS_LEADERBOARDS| Comma separated list (optional)| "" |
+|REDIS_LEADERBOARD_SET| Name of a Redis SET that holds all of the leaderboards to display| "" |
 |REDIS_SCANPREFIX | Prefix of keys to scan for possible leaderboards | "" |
 |REDIS_TOPK | The number of entries in the leaderboard | 10 |
 
-Note: if REDIS_LEADERBOARDS, is not set then the application will scan all redis keys with the SCANPREFIX looking for sorted sets.  This is an expensive operation if you have lots of keys, so it's recommended that you set the REDIS_LEADERBOARDS if possible
+Note: if REDIS_LEADERBOARDS or REDIS_LEADERBOARD_SET is not set then the application will scan all redis keys with the SCANPREFIX looking for sorted sets.  This is an expensive operation if you have lots of keys, so it's recommended that you set the REDIS_LEADERBOARDS if possible
